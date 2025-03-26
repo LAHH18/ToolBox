@@ -12,7 +12,7 @@ const Card = ({
   verProduct,
   productoCodigo,
   isFavorite,
-  handleFavorite, 
+  handleFavorite,
 }) => {
   const { isAuthenticated } = useAuth();
 
@@ -32,7 +32,7 @@ const Card = ({
       return;
     }
 
-    await handleFavorite(productoCodigo); 
+    await handleFavorite(productoCodigo);
 
     Swal.fire({
       title: isFavorite ? "Eliminado de favoritos" : "Agregado a favoritos",
@@ -49,7 +49,16 @@ const Card = ({
 
   return (
     <div className="card bg__fond_card">
-      <img src={imagen} className="card-img-top" alt={titulo} />
+      <img
+        src={imagen}
+        className="card-img-top"
+        alt={titulo}
+        style={{
+          width: "200px",
+          height: "200px",
+          objectFit: "cover",
+        }}
+      />
       <div className="card-body">
         {isOffer && (
           <div className="d-flex">
@@ -76,7 +85,7 @@ const Card = ({
               color: "white",
               border: "none",
             }}
-            onClick={handleToggleFavorite} 
+            onClick={handleToggleFavorite}
           >
             {isFavorite ? "En Favoritos" : "Añadir a Favoritos"}
           </button>
