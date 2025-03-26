@@ -58,7 +58,7 @@ const Card = ({
           @media (max-width: 576px) {
             .responsive-img {
               width: 200px;
-              height: 200px;
+              height: 210px;
               object-fit: cover;
             }
           }
