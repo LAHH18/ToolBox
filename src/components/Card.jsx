@@ -55,7 +55,7 @@ const Card = ({
         alt={titulo}
         style={{
           width: "400px",
-          height: "200px",
+          height: "700px",
           objectFit: "cover",
         }}
       />
