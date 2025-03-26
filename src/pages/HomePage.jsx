@@ -92,7 +92,7 @@ function HomePage() {
           minHeight: "35vh"
         }}>
           <div style={{ width: "100%" }} className="text-center text-white">
-            <h2 className="bd__text display-4 mb-3" style={{ color: "var(--headerForm)" }}>¡Bienvenido a ToolBox!</h2>
+            <h2 className="bd__text display-4 mb-3" style={{ color: "var(--headerForm)" }}>¡Bienvenido a ToolBox! 2</h2>
             <p className="lead mb-4" style={{ color: "#E4EBF0" }}>Encuentra las mejores herramientas y productos para tus proyectos.</p>
             <Link to="/menuVent" className="btn btn-lg" style={{
               backgroundColor: "var(--btnForm)",
