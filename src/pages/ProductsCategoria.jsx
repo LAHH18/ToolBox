@@ -4,7 +4,6 @@ import { useProducts } from "../context/ProductsContext.jsx";
 import { useFavorites } from "../context/FavoritosContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import Card from "../components/Card.jsx";
-import Mapa from "../components/Mapa.jsx"; // Importa el componente Mapa
 
 const ProductsCategoria = () => {
   const { categoria } = useParams();
@@ -84,7 +83,7 @@ const ProductsCategoria = () => {
         )}
       </div>
 
-      {/* 🔹 Paginación */}
+      {/* Paginación */}
       {products.length > itemsPerPage && (
         <nav>
           <ul className="pagination justify-content-center">
@@ -108,13 +107,6 @@ const ProductsCategoria = () => {
           </ul>
         </nav>
       )}
-
-      {/* 🔹 Mapa */}
-      <div className="row justify-content-center mt-5">
-        <div className="col-12">
-          <Mapa /> {/* Usa el componente Mapa aquí */}
-        </div>
-      </div>
     </div>
   );
 };
