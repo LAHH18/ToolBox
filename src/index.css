@@ -1,0 +1,87 @@
+:root{
+  --fondo: #E4EBF0;
+  --btnForm: #8AB3CF;
+  --headerForm: #4180AB;
+}
+
+body {
+  background: linear-gradient(to bottom, #4180AB,#8AB3CF, #cbe0ed, #eaedef); /* Color azul más claro al inicio */
+  /* background: linear-gradient(to bottom, #8AB3CF, #cbe0ed, #eaedef); */
+  /* background-attachment: fixed; */
+  background-size: 100% 100%;
+  height: 100%;
+}
+
+
+/*estilos de boton para formularios*/
+.boton{
+  background-color: var(--btnForm) !important;
+  color: #fff !important;
+}
+
+/*Titulo de Formularioss*/
+.form__titulo{
+  color: var(--headerForm) !important;
+}
+
+.btn-ver-mas{
+  background-color: #34495e !important;
+  color: white !important;
+  border: none !important;
+}
+
+.bg__fond_form{
+  background-color: var(--headerForm) !important;
+}
+
+.bg__fondo{
+  background-color: #8AB3CF !important;
+}
+
+.bg__fond_card{
+  background-color: #BDD1DE !important;
+}
+
+.text-limited {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  /* Propiedades de recorte */
+  -webkit-line-clamp: 2;  /* Soporte en navegadores basados en WebKit */
+  line-clamp: 2;         /* Propiedad estándar, aún en etapa de adopción */
+  text-overflow: ellipsis;
+}
+
+.card__icon{
+  color: #34495e;
+}
+
+.card__icon--border-bottom{
+  padding-bottom: 15px;
+  border-bottom: 2px solid #34495e;
+}
+
+.m__vacio--cards{
+  margin-top: -50px !important;
+}
+
+.m__vacio--bienvenida{
+  margin-top: 50px !important;
+}
+
+.bd__text{
+  color: #2b95dc !important;
+}
+
+.padleft{
+  padding-top: 1.8%;
+  padding-left: 4%;
+}
+
+
+
+
+
+
+
+

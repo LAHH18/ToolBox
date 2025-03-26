@@ -1,0 +1,195 @@
+body {
+    background-color: #E4EBF0;
+}
+
+/* Primer navbar (color original) */
+.navbar:first-of-type {
+    background-color: #34495e; /* Color original */
+}
+
+/* Segundo navbar (color negro) */
+.navbar:last-of-type {
+    background-color: #000000; /* Color negro */
+}
+
+.navbar a {
+    color: #FFFFFF;
+}
+
+.card {
+    background-color: #BDD1DE;
+    margin-bottom: 20px; /* Espacio entre tarjetas */
+}
+
+.footer {
+    background-color: #34495e;
+    color: white;
+    padding: 20px 0;
+}
+
+.footer a {
+    color: #8AB3CF;
+}
+
+.nav-item {
+    margin-bottom: 15px;
+}
+
+.form-select {
+    width: 100%;
+    background-color: #ffffff; /* Fondo blanco para que sea visible */
+    color: #000000; /* Texto negro */
+    border: 1px solid #ccc; /* Borde para mayor visibilidad */
+}
+
+.form-select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.nav-link {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.navbar .nav-link {
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.navbar .nav-item:hover .nav-link {
+    color: #8AB3CF;
+}
+
+/* Estilos para el menú desplegable */
+.dropdown-menu {
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ccc; /* Borde para mayor visibilidad */
+}
+
+.dropdown-item {
+    color: #000000; /* Texto negro */
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa; /* Color de fondo al pasar el cursor */
+    color: #000000; /* Texto negro */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.nacbar-cont {
+    color: #000000;
+    background-color: #8AB3CF;
+}
+
+/* Estilo para el logo más grande y grueso */
+.navbar-brand {
+    font-size: 2rem; /* Tamaño más grande */
+    font-weight: bold; /* Texto más grueso */
+    color: #ffffff; /* Color blanco */
+}
+
+/* Nuevo apartado en el body */
+.nuevo-apartado {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nuevo-apartado h2 {
+    color: #34495e;
+    margin-bottom: 15px;
+}
+
+.nuevo-apartado p {
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Estilos para los botones de las tarjetas */
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.card-buttons .btn {
+    flex: 1;
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.btn-ver-mas {
+    background-color: #34495e;
+    color: white;
+    border: none;
+}
+
+.btn-ver-mas:hover {
+    background-color: #2c3e50;
+}
+
+.btn-favoritos {
+    background-color: #8AB3CF;
+    color: white;
+    border: none;
+}
+
+.btn-favoritos:hover {
+    background-color: #6c8fa8;
+}
+
+.navbar {
+    overflow: visible !important;
+}
+
+.nav-item.dropdown {
+    position: relative !important;
+}
+
+.nav-item.dropdown .dropdown-menu {
+    position: absolute !important;
+    right: 0 !important;
+    left: auto !important;
+    top: 100% !important;
+    min-width: 150px !important;
+    z-index: 1051 !important;
+}
+
+/* Para sobrescribir el color en los estados visited, focus y active */
+.navbar .nav-link:visited,
+.navbar .nav-link:focus,
+.navbar .nav-link:active {
+    color: #FFFFFF !important; /* Color para "activo" o "con foco" */
+    text-decoration: none;     /* Quita el subrayado si aparece */
+    outline: none;             /* Evita el contorno de foco */
+    box-shadow: none;          /* Evita cualquier sombra de foco por defecto */
+}
+
+/* Asegurar que el hover sobrescriba lo anterior */
+.navbar .nav-link:hover,
+.navbar .nav-item:hover .nav-link {
+    color: #8AB3CF !important;
+}

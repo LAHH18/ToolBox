@@ -1,0 +1,146 @@
+/* Estilos generales */
+.ventana-ctrl-container {
+  max-width: 1200px;
+  margin: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Degradado azul */
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ventana-ctrl-title {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 30px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.ventana-ctrl-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.ventana-ctrl-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ventana-ctrl-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.ventana-ctrl-card h3 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.ventana-ctrl-card p {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  margin: 15px 0;
+}
+
+.ventana-ctrl-button {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ventana-ctrl-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.ventana-ctrl-info {
+  margin-top: 40px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.ventana-ctrl-info h3 {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.ventana-ctrl-info p {
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  margin: 15px 0;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ventana-ctrl-container {
+  animation: fadeIn 1s ease-out;
+}
+
+.ventana-ctrl-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Efecto de neón para los botones */
+.ventana-ctrl-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.ventana-ctrl-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+}
+
+.ventana-ctrl-button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ocupa toda la altura de la ventana */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del tamaño */
+}
