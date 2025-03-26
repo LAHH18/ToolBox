@@ -54,7 +54,7 @@ const Card = ({
         className="card-img-top"
         alt={titulo}
         style={{
-          width: "400px",
+          width: "380px",
           height: "700px",
           objectFit: "cover",
         }}
