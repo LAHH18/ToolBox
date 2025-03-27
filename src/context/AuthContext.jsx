@@ -61,34 +61,29 @@ export const AuthProvider = ({children})=>{
     }, [errors]);   
 
     //Verufucacion login
-    useEffect(()=>{
-        async function checklogin(){
-            const cookies = Cookies.get(); 
-            if(!cookies.token){
-                setIsthenticated(false);
-                setLoading(false)
-                return setUser(null);
-            }
-            //ejecuta la funciotn 
-            try {
-                const res = await verifyTokenRequest(cookies.token);
-                if(!res.data){
-                    setIsthenticated(false);
-                    setLoading(false);
-                    return
-                }
-                
-                setIsthenticated(true);
-                setUser(res.data);
-                setLoading(false);
-            } catch (error) {
-                setIsthenticated(false);
-                setUser(null);
-                setLoading(false);
-            }
+    useEffect(() => {
+        async function checkLogin() {
+          const { token } = Cookies.get();
+          if (!token) {
+            setIsthenticated(false);
+            setUser(null);
+            setLoading(false);
+            return;
+          }
+          try {
+            const res = await verifyTokenRequest(); // <— SIN argumento
+            setIsthenticated(true);
+            setUser(res.data);
+          } catch {
+            setIsthenticated(false);
+            setUser(null);
+          } finally {
+            setLoading(false);
+          }
         }
-        checklogin();
-    }, []);
+        checkLogin();
+      }, []);
+      
 
     return (
         <AuthContext.Provider value={{ 
