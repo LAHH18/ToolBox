@@ -169,8 +169,8 @@ const VentanaCtrl = () => {
           {/* Datos del Sensor */}
           <div className="ventana-ctrl-card">
             <h3>Datos del Sensor</h3>
-            <p style={{ fontSize: '2rem' }}>Temperatura: {sensorData.temperatura} °C</p>
-            <p style={{ fontSize: '2rem' }}>Humedad: {sensorData.humedad} %</p>
+            <p style={{ fontSize: '2rem' }}>Temperatura: {sensorData.temperatura}°C</p>
+            <p style={{ fontSize: '2rem' }}>Humedad: {sensorData.humedad}%</p>
             {/*
             <p>Calidad de Aire: {sensorData.calidad_aire}</p>
             */}
