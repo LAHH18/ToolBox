@@ -231,7 +231,7 @@ const VentanaCtrl = () => {
                 Number(sensorData.calidad_aire) < 2800 ? (
                   <div className="icon-calidad-aire">
                     <img 
-                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061834/snqbnlue9qs79ov1a7wa.png" 
+                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061829/safdmq9yztgwrwgvvmu8.png" 
                       alt="Mala calidad de aire" 
                       style={imageStyle} 
                     />
@@ -240,7 +240,7 @@ const VentanaCtrl = () => {
                 ) : (
                   <div className="icon-calidad-aire">
                     <img 
-                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061829/safdmq9yztgwrwgvvmu8.png" 
+                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061834/snqbnlue9qs79ov1a7wa.png" 
                       alt="Buena calidad de aire" 
                       style={imageStyle} 
                     />
