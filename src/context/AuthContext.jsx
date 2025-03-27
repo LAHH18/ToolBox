@@ -44,11 +44,16 @@ export const AuthProvider = ({children})=>{
         }
     }
 
-    const logout=()=>{
-        Cookies.remove("token");
-        setIsthenticated(false);
+    // En tu función logout:
+    const logout = () => {
+        Cookies.remove("token", {
+            path: "/",
+            domain: "tool-box-blond.vercel.app"
+        });
+        setIsAuthenticated(false);
         setUser(null);
-    }
+        window.location.reload(); // Fuerza limpieza
+    };
 
     //Borrar el error
     useEffect(()=>{
@@ -60,35 +65,44 @@ export const AuthProvider = ({children})=>{
         }
     }, [errors]);   
 
-    //Verufucacion login
     useEffect(() => {
         async function checkLogin() {
-            const cookies = Cookies.get();
-            const token = cookies.token;
-            
-            if (!token) {
-                setIsthenticated(false);
-                setUser(null);
-                setLoading(false);
-                return;
-            }
-    
             try {
-                const res = await verifyTokenRequest();
-                if (!res.data) throw new Error("No user data");
+                // Obtiene la cookie correctamente
+                const token = Cookies.get('token');
                 
-                setIsthenticated(true);
-                setUser(res.data);
+                if (!token) {
+                    setIsthenticated(false);
+                    setUser(null);
+                    setLoading(false);
+                    return;
+                }
+    
+                // Verifica el token con el backend
+                const res = await verifyTokenRequest();
+                
+                if (res.data) {
+                    setIsthenticated(true);
+                    setUser(res.data);
+                } else {
+                    throw new Error("Token inválido");
+                }
             } catch (error) {
-                console.error("Token verification failed:", error);
+                console.error("Error en checkLogin:", error);
+                // Limpia la cookie si es inválida
+                Cookies.remove('token', {
+                    path: '/',
+                    domain: window.location.hostname.includes('vercel.app') 
+                        ? '.vercel.app' 
+                        : undefined
+                });
                 setIsthenticated(false);
                 setUser(null);
-                // Opcional: limpiar cookie inválida
-                Cookies.remove("token");
             } finally {
                 setLoading(false);
             }
         }
+        
         checkLogin();
     }, []);
 
