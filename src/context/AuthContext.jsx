@@ -71,7 +71,7 @@ export const AuthProvider = ({children})=>{
             return;
           }
           try {
-            const res = await verifyTokenRequest(); // <— SIN argumento
+            const res = await verifyTokenRequest();
             setIsthenticated(true);
             setUser(res.data);
           } catch {
@@ -83,6 +83,7 @@ export const AuthProvider = ({children})=>{
         }
         checkLogin();
       }, []);
+      
       
 
     return (
