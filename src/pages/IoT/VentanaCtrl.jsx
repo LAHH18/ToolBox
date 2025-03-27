@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import mqtt from 'mqtt';
+import Swal from 'sweetalert2';
 import '../IoT/VentanaCtrl.css';
 
 const MQTT_BROKER = "wss://584812d491644e289c0361eee4ae4aa5.s1.eu.hivemq.cloud:8884/mqtt";
@@ -84,6 +85,24 @@ const VentanaCtrl = () => {
     return () => mqttClient && mqttClient.end();
   }, []);
 
+  useEffect(() => {
+    if (sensorData.calidad_aire !== '--') {
+      const calidadAire = Number(sensorData.calidad_aire);
+      if (calidadAire < 2800) {
+        Swal.fire({
+          title: '⚠️ Alerta de Calidad del Aire',
+          text: `Calidad del aire peligrosa (${sensorData.calidad_aire}). Se recomienda cerrar ventanas.`,
+          icon: 'warning',
+          confirmButtonText: 'Entendido',
+          background: '#2c3e50',
+          color: '#fff',
+          timer: 5000,
+          timerProgressBar: true
+        });
+      }
+    }
+  }, [sensorData.calidad_aire]);
+
   const sendCommand = command => {
     if (client && isConnected) {
       client.publish("ventana/control", command);
@@ -96,10 +115,9 @@ const VentanaCtrl = () => {
       <div className="ventana-ctrl-container">
         <h1 className="ventana-ctrl-title">Control Inteligente IoT</h1>
         <div className="ventana-ctrl-card-container">
-          {/* Panel de Control */}
+          {/* Widget 1: Control de Ventana */}
           <div className="ventana-ctrl-card">
             <h3>Control de Ventana</h3>
-            {/* Texto arriba de los botones que indica el estado de la ventana */}
             <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
               Estado: {sensorData.estado}
             </p>
@@ -109,7 +127,6 @@ const VentanaCtrl = () => {
             <button className="ventana-ctrl-button" onClick={() => sendCommand("c")}>
               Cerrar Ventana
             </button>
-            {/* Iconos y texto según el estado de la ventana */}
             {sensorData.estado === "Abierta" ? (
               <div className="icon-control-ventana mt-4">
                 <img 
@@ -131,10 +148,9 @@ const VentanaCtrl = () => {
             ) : null}
           </div>
 
-          {/* Estado del Seguro */}
+          {/* Widget 2: Control del Seguro */}
           <div className="ventana-ctrl-card">
             <h3>Control del estado del Seguro</h3>
-            {/* Texto arriba de los botones que indica el estado del seguro */}
             <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
               Estado: {sensorData.seguro}
             </p>
@@ -144,7 +160,6 @@ const VentanaCtrl = () => {
             <button className="ventana-ctrl-button" onClick={() => sendCommand("b")}>
               Bloquear
             </button>
-            {/* Iconos y texto según el estado del seguro */}
             {sensorData.seguro === "Bloqueado" ? (
               <div className="icon-seguro mt-4">
                 <img 
@@ -166,35 +181,74 @@ const VentanaCtrl = () => {
             ) : null}
           </div>
 
-          {/* Datos del Sensor */}
+          {/* Widget 3: Temperatura y Humedad */}
           <div className="ventana-ctrl-card">
-            <h3>Datos del Sensor</h3>
-            <p style={{ fontSize: '2rem' }}>Temperatura: {sensorData.temperatura}°C</p>
-            <p style={{ fontSize: '2rem' }}>Humedad: {sensorData.humedad}%</p>
-            {/*
-            <p>Calidad de Aire: {sensorData.calidad_aire}</p>
-            */}
-            <p>Lluvia: {sensorData.lluvia}</p>
-            {/* Iconos y texto según el estado de lluvia */}
-            {sensorData.lluvia === "Sin lluvia" ? (
-              <div className="icon-lluvia">
-                <img 
-                  src="https://res.cloudinary.com/dr29apyqc/image/upload/v1742980899/alvgbk1atqu06rfjrdao.png" 
-                  alt="Sin lluvia" 
-                  style={imageStyle} 
-                />
-                <p style={textStyle}>Sin lluvia</p>
+            <h3>Condiciones Ambientales</h3>
+            <div className="sensor-data">
+              <div className="sensor-value">
+                <p style={{ fontSize: '1.5rem' }}>Temperatura:</p>
+                <p style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>{sensorData.temperatura}°C</p>
               </div>
-            ) : (
-              <div className="icon-lluvia">
-                <img 
-                  src="https://res.cloudinary.com/dr29apyqc/image/upload/v1742980906/ztpyxklbdkaeaxsmyzqi.png" 
-                  alt="Con lluvia" 
-                  style={imageStyle} 
-                />
-                <p style={textStyle}>Con lluvia</p>
+              <div className="sensor-value">
+                <p style={{ fontSize: '1.5rem' }}>Humedad:</p>
+                <p style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>{sensorData.humedad}%</p>
               </div>
-            )}
+            </div>
+          </div>
+
+          {/* Widget 4: Lluvia y Calidad de Aire */}
+          <div className="ventana-ctrl-card">
+            <h3>Estado Exterior</h3>
+            
+            {/* Sección de Lluvia */}
+            <div className="sensor-section">
+              <p style={{ fontSize: '1.5rem' }}>Lluvia: {sensorData.lluvia}</p>
+              {sensorData.lluvia === "Sin lluvia" ? (
+                <div className="icon-lluvia">
+                  <img 
+                    src="https://res.cloudinary.com/dr29apyqc/image/upload/v1742980899/alvgbk1atqu06rfjrdao.png" 
+                    alt="Sin lluvia" 
+                    style={imageStyle} 
+                  />
+                  <p style={textStyle}>Sin lluvia</p>
+                </div>
+              ) : (
+                <div className="icon-lluvia">
+                  <img 
+                    src="https://res.cloudinary.com/dr29apyqc/image/upload/v1742980906/ztpyxklbdkaeaxsmyzqi.png" 
+                    alt="Con lluvia" 
+                    style={imageStyle} 
+                  />
+                  <p style={textStyle}>Con lluvia</p>
+                </div>
+              )}
+            </div>
+            
+            {/* Sección de Calidad de Aire */}
+            <div className="sensor-section">
+              <p style={{ fontSize: '1.5rem' }}>Calidad de Aire: {sensorData.calidad_aire}</p>
+              {sensorData.calidad_aire !== '--' && (
+                Number(sensorData.calidad_aire) < 2800 ? (
+                  <div className="icon-calidad-aire">
+                    <img 
+                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061834/snqbnlue9qs79ov1a7wa.png" 
+                      alt="Mala calidad de aire" 
+                      style={imageStyle} 
+                    />
+                    <p style={{ ...textStyle, color: '#ff6b6b' }}>Mala calidad de aire</p>
+                  </div>
+                ) : (
+                  <div className="icon-calidad-aire">
+                    <img 
+                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061829/safdmq9yztgwrwgvvmu8.png" 
+                      alt="Buena calidad de aire" 
+                      style={imageStyle} 
+                    />
+                    <p style={{ ...textStyle, color: '#51cf66' }}>Buena calidad de aire</p>
+                  </div>
+                )
+              )}
+            </div>
           </div>
         </div>
 

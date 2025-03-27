@@ -41,51 +41,85 @@ const VentanaCtrl2 = () => {
     mqttClient.on('connect', () => {
       console.log('Conectado al broker MQTT');
       setIsConnected(true);
-      mqttClient.subscribe("ventana/+2", err => {
-        if (err) console.error("Error en la suscripción", err);
+      
+      // Lista de topics a los que nos queremos suscribir
+      const topics = [
+        'ventana/temperatura2',
+        'ventana/humedad2',
+        'ventana/calidad_aire2',
+        'ventana/lluvia2',
+        'ventana/estado2',
+        'ventana/seguro2'
+      ];
+
+      // Suscribirse a cada topic individualmente
+      topics.forEach(topic => {
+        mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+          if (err) {
+            console.error(`Error al suscribirse a ${topic}:`, err);
+          } else {
+            console.log(`Suscrito correctamente a ${topic}`);
+          }
+        });
       });
     });
 
     mqttClient.on('error', err => {
-      console.error('Error de conexión: ', err);
-      mqttClient.end();
+      console.error('Error de conexión MQTT: ', err);
+      setIsConnected(false);
     });
 
     mqttClient.on('message', (topic, message) => {
       const msg = message.toString();
-      console.log(topic, msg);
+      console.log(`Mensaje recibido [${topic}]: ${msg}`);
+      
+      // Actualizar el estado según el topic recibido
       switch (topic) {
-        case "ventana/temperatura2":
+        case 'ventana/temperatura2':
           setSensorData(prev => ({ ...prev, temperatura: msg }));
           break;
-        case "ventana/humedad2":
+        case 'ventana/humedad2':
           setSensorData(prev => ({ ...prev, humedad: msg }));
           break;
-        case "ventana/calidad_aire2":
+        case 'ventana/calidad_aire2':
           setSensorData(prev => ({ ...prev, calidad_aire: msg }));
           break;
-        case "ventana/lluvia2":
+        case 'ventana/lluvia2':
           setSensorData(prev => ({ ...prev, lluvia: msg }));
           break;
-        case "ventana/estado2":
+        case 'ventana/estado2':
           setSensorData(prev => ({ ...prev, estado: msg }));
           break;
-        case "ventana/seguro2":
+        case 'ventana/seguro2':
           setSensorData(prev => ({ ...prev, seguro: msg }));
           break;
         default:
-          break;
+          console.log(`Topic no manejado: ${topic}`);
       }
     });
 
     setClient(mqttClient);
-    return () => mqttClient && mqttClient.end();
+
+    // Función de limpieza al desmontar el componente
+    return () => {
+      if (mqttClient) {
+        mqttClient.end();
+        console.log('Desconectado del broker MQTT');
+      }
+    };
   }, []);
 
-  const sendCommand = command => {
+  const sendCommand = (command) => {
     if (client && isConnected) {
-      client.publish("ventana/control2", command);
-      console.log("Comando enviado:", command);
+      client.publish('ventana/control2', command, { qos: 1 }, (err) => {
+        if (err) {
+          console.error('Error al enviar comando:', err);
+        } else {
+          console.log(`Comando enviado: ${command}`);
+        }
+      });
+    } else {
+      console.warn('No se puede enviar comando - cliente MQTT no conectado');
     }
   };
 
@@ -97,17 +131,27 @@ const VentanaCtrl2 = () => {
           {/* Panel de Control */}
           <div className="ventana-ctrl-card">
             <h3>Control de Ventana</h3>
-            {/* Texto arriba de los botones que indica el estado de la ventana */}
-            <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
+            <p style={{ 
+              ...textStyle, 
+              fontSize: '1.4rem', 
+              marginBottom: '10px',
+              color: sensorData.estado === "Abierta" ? '#4CAF50' : '#F44336'
+            }}>
               Estado: {sensorData.estado}
             </p>
-            <button className="ventana-ctrl-button" onClick={() => sendCommand("a")}>
+            <button 
+              className="ventana-ctrl-button" 
+              onClick={() => sendCommand("a")}
+              disabled={sensorData.seguro === "Bloqueado"}
+            >
               Abrir Ventana
             </button>
-            <button className="ventana-ctrl-button" onClick={() => sendCommand("c")}>
+            <button 
+              className="ventana-ctrl-button" 
+              onClick={() => sendCommand("c")}
+            >
               Cerrar Ventana
             </button>
-            {/* Iconos y texto según el estado de la ventana */}
             {sensorData.estado === "Abierta" ? (
               <div className="icon-control-ventana mt-4">
                 <img 
@@ -132,17 +176,28 @@ const VentanaCtrl2 = () => {
           {/* Estado del Seguro */}
           <div className="ventana-ctrl-card">
             <h3>Control del estado del Seguro</h3>
-            {/* Texto arriba de los botones que indica el estado del seguro */}
-            <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
+            <p style={{ 
+              ...textStyle, 
+              fontSize: '1.4rem', 
+              marginBottom: '10px',
+              color: sensorData.seguro === "Bloqueado" ? '#F44336' : '#4CAF50'
+            }}>
               Estado: {sensorData.seguro}
             </p>
-            <button className="ventana-ctrl-button" onClick={() => sendCommand("d")}>
+            <button 
+              className="ventana-ctrl-button" 
+              onClick={() => sendCommand("d")}
+              disabled={sensorData.seguro === "Desbloqueado"}
+            >
               Desbloquear
             </button>
-            <button className="ventana-ctrl-button" onClick={() => sendCommand("b")}>
+            <button 
+              className="ventana-ctrl-button" 
+              onClick={() => sendCommand("b")}
+              disabled={sensorData.seguro === "Bloqueado" || sensorData.estado === "Abierta"}
+            >
               Bloquear
             </button>
-            {/* Iconos y texto según el estado del seguro */}
             {sensorData.seguro === "Bloqueado" ? (
               <div className="icon-seguro mt-4">
                 <img 
@@ -169,11 +224,8 @@ const VentanaCtrl2 = () => {
             <h3>Datos del Sensor</h3>
             <p style={{ fontSize: '2rem' }}>Temperatura: {sensorData.temperatura} °C</p>
             <p style={{ fontSize: '2rem' }}>Humedad: {sensorData.humedad} %</p>
-            {/*
             <p>Calidad de Aire: {sensorData.calidad_aire}</p>
-            */}
             <p>Lluvia: {sensorData.lluvia}</p>
-            {/* Iconos y texto según el estado de lluvia */}
             {sensorData.lluvia === "Sin lluvia" ? (
               <div className="icon-lluvia">
                 <img 
@@ -199,7 +251,14 @@ const VentanaCtrl2 = () => {
         {/* Información Adicional */}
         <div className="ventana-ctrl-info">
           <h3>Información del Dispositivo</h3>
-          <p>Estado de Conexión: {isConnected ? 'Conectado' : 'Desconectado'}</p>
+          <p>Estado de Conexión: 
+            <span style={{ color: isConnected ? '#4CAF50' : '#F44336', fontWeight: 'bold' }}>
+              {isConnected ? ' Conectado' : ' Desconectado'}
+            </span>
+          </p>
+          {!isConnected && (
+            <p style={{ color: '#FFC107' }}>Intentando reconectar...</p>
+          )}
         </div>
       </div>
     </div>
