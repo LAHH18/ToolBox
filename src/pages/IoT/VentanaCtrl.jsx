@@ -150,7 +150,7 @@ const VentanaCtrl = () => {
 
           {/* Widget 2: Control del Seguro */}
           <div className="ventana-ctrl-card">
-            <h3>Control del estado del Seguro</h3>
+            <h3>Control del estado Seguro</h3>
             <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
               Estado: {sensorData.seguro}
             </p>
