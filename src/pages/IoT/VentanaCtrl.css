@@ -1,12 +1,13 @@
 /* Estilos generales */
 .ventana-ctrl-container {
-  max-width: 1200px;
-  margin: 20px;
+  max-width: 1300px; /* Aumentado para acomodar 4 cards */
+  margin: 20px auto;
   padding: 20px;
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Degradado azul */
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: fadeIn 1s ease-out;
 }
 
 .ventana-ctrl-title {
@@ -20,20 +21,41 @@
 
 .ventana-ctrl-card-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 20px;
   justify-content: center;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+/* Estilo personalizado para la barra de scroll */
+.ventana-ctrl-card-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.ventana-ctrl-card-container::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.ventana-ctrl-card-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 10px;
 }
 
 .ventana-ctrl-card {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 25px;
-  width: 300px;
+  width: 280px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  flex: 0 0 auto;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .ventana-ctrl-card:hover {
@@ -65,11 +87,29 @@
   font-size: 1rem;
   font-weight: 500;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .ventana-ctrl-button:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.ventana-ctrl-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+}
+
+.ventana-ctrl-button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .ventana-ctrl-info {
@@ -95,6 +135,33 @@
   margin: 15px 0;
 }
 
+/* Estilos para los elementos específicos de los widgets */
+.sensor-data {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sensor-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sensor-section {
+  margin-bottom: 20px;
+}
+
+.icon-control-ventana,
+.icon-seguro,
+.icon-lluvia,
+.icon-calidad-aire {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15px;
+}
+
 /* Animaciones */
 @keyframes fadeIn {
   from {
@@ -107,40 +174,44 @@
   }
 }
 
-.ventana-ctrl-container {
-  animation: fadeIn 1s ease-out;
-}
-
-.ventana-ctrl-card {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Efecto de neón para los botones */
-.ventana-ctrl-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.ventana-ctrl-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.5s ease;
-}
-
-.ventana-ctrl-button:hover::after {
-  transform: translate(-50%, -50%) scale(1);
-}
-
+/* Contenedor principal */
 .wrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Ocupa toda la altura de la ventana */
-  box-sizing: border-box; /* Incluye el padding en el cálculo del tamaño */
+  align-items: flex-start;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1200px) {
+  .ventana-ctrl-card {
+    width: 260px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ventana-ctrl-card {
+    width: 240px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .ventana-ctrl-card {
+    width: 220px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ventana-ctrl-card-container {
+    justify-content: flex-start;
+  }
+  
+  .ventana-ctrl-container {
+    max-width: 100%;
+    margin: 20px;
+  }
 }

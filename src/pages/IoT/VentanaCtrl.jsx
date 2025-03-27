@@ -119,7 +119,7 @@ const VentanaCtrl = () => {
           <div className="ventana-ctrl-card">
             <h3>Control de Ventana</h3>
             <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
-              Estado: {sensorData.estado}
+              {sensorData.estado}
             </p>
             <button className="ventana-ctrl-button" onClick={() => sendCommand("a")}>
               Abrir Ventana
@@ -152,7 +152,7 @@ const VentanaCtrl = () => {
           <div className="ventana-ctrl-card">
             <h3>Control del estado Seguro</h3>
             <p style={{ ...textStyle, fontSize: '1.4rem', marginBottom: '10px' }}>
-              Estado: {sensorData.seguro}
+              {sensorData.seguro}
             </p>
             <button className="ventana-ctrl-button" onClick={() => sendCommand("d")}>
               Desbloquear
@@ -231,7 +231,7 @@ const VentanaCtrl = () => {
                 Number(sensorData.calidad_aire) < 2800 ? (
                   <div className="icon-calidad-aire">
                     <img 
-                      src="https://res.cloudinary.com/dr29apyqc/image/upload/v1743061829/safdmq9yztgwrwgvvmu8.png" 
+                      src="" 
                       alt="Mala calidad de aire" 
                       style={imageStyle} 
                     />
