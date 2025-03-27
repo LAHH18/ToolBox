@@ -63,28 +63,34 @@ export const AuthProvider = ({children})=>{
     //Verufucacion login
     useEffect(() => {
         async function checkLogin() {
-          const { token } = Cookies.get();
-          if (!token) {
-            setIsthenticated(false);
-            setUser(null);
-            setLoading(false);
-            return;
-          }
-          try {
-            const res = await verifyTokenRequest();
-            setIsthenticated(true);
-            setUser(res.data);
-          } catch {
-            setIsthenticated(false);
-            setUser(null);
-          } finally {
-            setLoading(false);
-          }
+            const cookies = Cookies.get();
+            const token = cookies.token;
+            
+            if (!token) {
+                setIsthenticated(false);
+                setUser(null);
+                setLoading(false);
+                return;
+            }
+    
+            try {
+                const res = await verifyTokenRequest();
+                if (!res.data) throw new Error("No user data");
+                
+                setIsthenticated(true);
+                setUser(res.data);
+            } catch (error) {
+                console.error("Token verification failed:", error);
+                setIsthenticated(false);
+                setUser(null);
+                // Opcional: limpiar cookie inválida
+                Cookies.remove("token");
+            } finally {
+                setLoading(false);
+            }
         }
         checkLogin();
-      }, []);
-      
-      
+    }, []);
 
     return (
         <AuthContext.Provider value={{ 
