@@ -51,13 +51,13 @@ const Card = ({
       <style>
         {`
           .responsive-img {
-            width: 383px;
+            width: 310px;
             height: 380px;
             object-fit: cover;
           }
           @media (max-width: 576px) {
             .responsive-img {
-              width: 300px;
+              width: 310px;
               height: 300px;
               object-fit: cover;
             }
